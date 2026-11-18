@@ -1,0 +1,50 @@
+# EcoVision AI — Clasificación inteligente de residuos ♻️
+
+**Proyecto final · Deep Learning para Visión**
+
+**Autores:** David Santiago Cifuentes Grimaldo y Juan David Jiménez.
+
+## Objetivo
+Desarrollar un prototipo de visión por computador que clasifique una fotografía de un único residuo en seis categorías: cartón, vidrio, metal, papel, plástico y basura general. Se comparan una **CNN entrenada desde cero** y **ResNet18 mediante transferencia de aprendizaje**.
+
+## Resultados (prueba independiente, 379 imágenes)
+
+| Métrica | CNN propia | ResNet18 |
+| --- | ---: | ---: |
+| Accuracy | 56,20 % | **78,63 %** |
+| Precisión macro | 57,51 % | **76,91 %** |
+| Recall macro | 58,59 % | **75,78 %** |
+| F1-score macro | 53,63 % | **76,16 %** |
+
+ResNet18 clasificó correctamente **298 de 379 imágenes de prueba**. Estas métricas corresponden al conjunto de prueba; no garantizan el mismo rendimiento con fotografías externas.
+
+## Archivos
+
+```text
+app.py                          Aplicación web Streamlit
+requirements.txt                Dependencias
+artifacts/best_model.pth        Checkpoint entrenado (subir archivo)
+notebook/EcoVision_Proyecto_Final.ipynb  Experimentos (subir archivo)
+presentacion/EcoVision_Presentacion.pdf  Diapositivas (subir archivo)
+```
+
+> **Pendiente de completar:** para que la aplicación funcione en Streamlit Cloud es indispensable añadir `artifacts/best_model.pth` al repositorio. También se recomienda subir el notebook ejecutado y la presentación PDF.
+
+## Uso en Streamlit
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+En Streamlit Community Cloud seleccionar el repositorio `david1727x/EcoVision-AI`, rama `main`, archivo `app.py`.
+
+La interfaz acepta una fotografía, muestra la clase predicha y el puntaje del modelo para las seis categorías. Las puntuaciones **no están calibradas**, por lo que no deben interpretarse como probabilidades verificadas.
+
+## Limitaciones
+
+Prototipo académico. La identificación puede fallar cuando hay varios objetos, materiales mezclados, cambios fuertes de iluminación o fotografías diferentes a las del dataset. No sustituye sistemas reales de clasificación industrial.
+
+## Entrega académica
+
+La entrega recomendada comprende el notebook ejecutado, la presentación de cinco diapositivas y los enlaces al repositorio y, cuando esté publicada, a la aplicación Streamlit.
