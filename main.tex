@@ -1,0 +1,244 @@
+% ================================================================
+% ECOVISION AI | PRESENTACION CON RESULTADOS DEFINITIVOS (5 DIAPOSITIVAS)
+% Compilacion: PDFLaTeX (Overleaf o TeX Live)
+% Resultados: MODO_RAPIDO=False | test independiente de 379 imagenes
+% ================================================================
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+
+% PALETA
+\definecolor{Azul}{HTML}{11253B}
+\definecolor{Turquesa}{HTML}{008F85}
+\definecolor{VerdeClaro}{HTML}{EAF7F4}
+\definecolor{GrisClaro}{HTML}{F2F5F8}
+\definecolor{Texto}{HTML}{273746}
+\definecolor{Secundario}{HTML}{647485}
+\definecolor{Naranja}{HTML}{F3B75E}
+
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=Texto}
+\setbeamercolor{frametitle}{fg=Azul}
+\setbeamercolor{structure}{fg=Turquesa}
+\setbeamercolor{block title}{bg=Azul,fg=white}
+\setbeamercolor{block body}{bg=GrisClaro,fg=Texto}
+\setbeamercolor{footline}{bg=Azul,fg=white}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{Turquesa}\small$\blacktriangleright$}
+\setbeamersize{text margin left=0.70cm,text margin right=0.70cm}
+\setbeamertemplate{footline}{%
+  \leavevmode\hbox{%
+  \begin{beamercolorbox}[wd=.84\paperwidth,ht=2.7ex,dp=1.1ex,leftskip=.7cm]{footline}%
+    \scriptsize\textbf{EcoVision AI} \hspace{.8em} | \hspace{.8em} Deep Learning para Vision
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.16\paperwidth,ht=2.7ex,dp=1.1ex,rightskip=.7cm plus1fil]{footline}%
+    \hfill\scriptsize\insertframenumber/5
+  \end{beamercolorbox}}%
+}
+
+% ======== CAMPOS EDITABLES ========
+\newcommand{\Integrantes}{David Santiago Cifuentes Grimaldo\\[3pt]Juan David Jim\'enez}
+\newcommand{\AccCNN}{56,20\%}
+\newcommand{\AccResNet}{\textbf{78,63\%}}
+\newcommand{\FunoCNN}{53,63\%}
+\newcommand{\FunoResNet}{\textbf{76,16\%}}
+\newcommand{\MejorModelo}{ResNet18 (F1 validaci\'on: 73,99\%)}
+\newcommand{\HallazgoPrincipal}{81 errores en 379 im\'agenes; principales confusiones entre vidrio y pl\'astico.}
+
+% Esta macro muestra la figura si ya esta disponible, y un recuadro si falta.
+% Copiar luego las graficas desde el directorio artifacts/ del notebook.
+\newcommand{\figurapendiente}[3]{%
+  \IfFileExists{#1}{%
+    \includegraphics[width=#2,height=#3,keepaspectratio]{#1}%
+  }{%
+    \fcolorbox{Turquesa}{GrisClaro}{%
+      \parbox[c][#3][c]{\dimexpr#2-2\fboxsep-2\fboxrule\relax}{%
+        \centering\color{Secundario}\small\textbf{Figura por insertar}\\[4pt]
+        \texttt{\detokenize{#1}}%
+      }%
+    }%
+  }%
+}
+
+\begin{document}
+
+% ------------------ DIAPOSITIVA 1 ------------------
+\begingroup
+\setbeamercolor{background canvas}{bg=Azul}
+\begin{frame}[plain]
+  \vspace{-0.35cm}
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[Turquesa] ([xshift=9.7cm]current page.north west) rectangle (current page.south east);
+    \fill[Naranja] ([xshift=.73cm,yshift=-1.22cm]current page.north west)
+      rectangle ([xshift=2.45cm,yshift=-1.30cm]current page.north west);
+    \draw[white,opacity=.24,line width=1.2pt]
+      ([xshift=10.9cm,yshift=-2.1cm]current page.north west) circle (1.25cm);
+    \draw[white,opacity=.24,line width=1.2pt]
+      ([xshift=10.9cm,yshift=-2.1cm]current page.north west) circle (.78cm);
+  \end{tikzpicture}
+  \color{white}
+  \vspace{.9cm}
+  {\small\bfseries PROYECTO FINAL \;\textbar\; DEEP LEARNING PARA VISI\'ON}\par
+  \vspace{1cm}
+  {\Huge\bfseries EcoVision AI}\par
+  \vspace{.2cm}
+  {\Large Clasificaci\'on inteligente de residuos}\par
+  \vspace{.45cm}
+  {\normalsize Comparaci\'on de una CNN propia y ResNet18\par
+   para el reconocimiento visual de seis tipos de residuos.}
+  \vfill
+  {\small\Integrantes}\par
+  \vspace{.5cm}
+\end{frame}
+\endgroup
+
+% ------------------ DIAPOSITIVA 2 ------------------
+\begin{frame}{El problema y los datos}
+  \vspace{.05cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.51\textwidth}
+      {\color{Turquesa}\bfseries ¿QUE BUSCAMOS RESOLVER?}\par\vspace{.14cm}
+      Clasificar autom\'aticamente una fotograf\'ia de un residuo para
+      apoyar su identificaci\'on y separaci\'on.
+      \vspace{.35cm}
+      \begin{block}{Dataset p\'ublico: Garbage Classification}
+        \begin{tabular}{@{}lr@{\hspace{.36cm}}lr@{}}
+          Cart\'on & 403 & Vidrio & 501 \\
+          Metal  & 409 & Papel  & 594 \\
+          Pl\'astico & 480 & Basura & 137 \\
+        \end{tabular}
+        \par\vspace{.13cm}
+        \textbf{Total: 2.524 im\'agenes v\'alidas.}\\
+        {\scriptsize Se descartaron 3 copias exactas.}
+      \end{block}
+    \end{column}
+    \begin{column}{.45\textwidth}
+      {\color{Turquesa}\bfseries PROCESAMIENTO}\par\vspace{.17cm}
+      \begin{block}{1. Control de calidad}
+        Validaci\'on de archivos y eliminaci\'on de duplicados exactos.
+      \end{block}
+      \vspace{.03cm}
+      \begin{block}{2. Divisi\'on estratificada}
+        1.766 para entrenamiento, 379 validaci\'on y 379 prueba\\{\scriptsize(70\% / 15\% / 15\%, estratificado).}
+      \end{block}
+      \vspace{.03cm}
+      \begin{block}{3. Aumento de datos}
+        Rotaci\'on, cambios de color y volteo solo en entrenamiento.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{.2cm}
+  {\scriptsize\color{Secundario}\textbf{Observaci\'on:} el conjunto est\'a desbalanceado; ``basura general'' tiene menos ejemplos que las otras clases.}
+\end{frame}
+
+% ------------------ DIAPOSITIVA 3 ------------------
+\begin{frame}{Arquitecturas y metodolog\'ia}
+  \vspace{-.05cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \begin{block}{MODELO A \;\textbar\; CNN desde cero}
+        \begin{itemize}
+          \item Tres bloques convolucionales.
+          \item 30.630 par\'ametros; 12 \`epocas.
+          \item Entrenada sin pesos preentrenados.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{.47\textwidth}
+      \begin{block}{MODELO B \;\textbar\; ResNet18}
+        \begin{itemize}
+          \item Red residual con pesos de ImageNet.
+          \item 3.078 entrenables; 8 \`epocas.
+          \item Clasificador de seis categor\'ias.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{.17cm}
+  \begin{beamercolorbox}[rounded=true,sep=.15cm,wd=\textwidth]{block body}
+    \centering\small \textbf{Configuraci\'on:} PyTorch + AdamW + CrossEntropy ponderada.
+    Selecci\'on mediante \textbf{F1 macro de validaci\'on}, sin utilizar test.
+  \end{beamercolorbox}
+  \vspace{.22cm}
+  \centering
+  \figurapendiente{figuras/f1_validacion.png}{.98\textwidth}{2.52cm}
+\end{frame}
+
+% ------------------ DIAPOSITIVA 4 ------------------
+\begin{frame}{Resultados y an\'alisis de errores}
+  \vspace{-.06cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.43\textwidth}
+      {\color{Turquesa}\bfseries EVALUACI\'ON EN TEST}\par\vspace{.16cm}
+      \renewcommand{\arraystretch}{1.37}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{M\'etrica} & \textbf{CNN} & \textbf{ResNet18} \\
+        \midrule
+        Accuracy & \AccCNN & \AccResNet \\
+        F1 macro & \FunoCNN & \FunoResNet \\
+        \bottomrule
+      \end{tabular}\par
+      \vspace{.30cm}
+      {\small\textbf{Modelo elegido:}}\par\vspace{.08cm}
+      {\small\MejorModelo}\par
+      \vspace{.22cm}
+      {\small\color{Secundario} \HallazgoPrincipal}
+      \vspace{.14cm}
+      {\scriptsize\color{Secundario} Cart\'on: F1=91,53\%. Basura general: F1=56,41\%.}
+    \end{column}
+    \begin{column}{.54\textwidth}
+      \centering
+      \figurapendiente{figuras/matriz_confusion.png}{\linewidth}{4.62cm}\\[.13cm]
+      {\scriptsize\color{Secundario}Matriz de confusi\'on del modelo ganador.}
+    \end{column}
+  \end{columns}
+  \vspace{.14cm}
+  {\scriptsize\color{Secundario}Evaluaci\'on final en test (379 im\'agenes). ResNet18 acierta 298 casos.}
+\end{frame}
+
+% ------------------ DIAPOSITIVA 5 ------------------
+\begin{frame}{Aplicaci\'on, limitaciones y conclusiones}
+  \vspace{-.1cm}
+  {\color{Turquesa}\bfseries DE LA RED NEURONAL A UNA HERRAMIENTA UTILIZABLE}\par
+  \vspace{.13cm}
+  \centering
+  \begin{tikzpicture}[node distance=0.6cm, >=Latex]
+    \node[draw=Turquesa,fill=VerdeClaro,rounded corners=3pt,minimum width=2.85cm,minimum height=.88cm,align=center] (a) {\textbf{Fotograf\'ia}\\\scriptsize Usuario carga imagen};
+    \node[draw=Turquesa,fill=VerdeClaro,rounded corners=3pt,minimum width=2.85cm,minimum height=.88cm,align=center,right=of a] (b) {\textbf{Modelo elegido}\\\scriptsize Preprocesamiento e inferencia};
+    \node[draw=Turquesa,fill=VerdeClaro,rounded corners=3pt,minimum width=2.85cm,minimum height=.88cm,align=center,right=of b] (c) {\textbf{Resultado}\\\scriptsize Clase y confianza};
+    \draw[->,thick,Turquesa] (a)--(b);
+    \draw[->,thick,Turquesa] (b)--(c);
+  \end{tikzpicture}
+  \vspace{.25cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.54\textwidth}
+      \begin{block}{Aplicaci\'on Streamlit: pr\'oximo paso}
+        El modelo se export\'o a \texttt{best\_model.pth}. Falta verificar
+        la aplicaci\'on con nuevas fotos y desplegarla.
+      \end{block}
+      \vspace{.08cm}
+      \begin{block}{Conclusi\'on principal}
+        ResNet18 mejor\'o el F1 macro en \textbf{22,53 puntos}
+        frente a la CNN; persisten errores de separaci\'on de materiales.
+      \end{block}
+      \vspace{.02cm}
+      {\scriptsize\color{Secundario}\textbf{Limitaciones:} una partici\'on aleatoria y datos de estudio; no se ha validado con residuos mezclados o im\'agenes externas.}
+    \end{column}
+    \begin{column}{.42\textwidth}
+      \centering
+      \figurapendiente{figuras/gradcam.png}{\linewidth}{2.97cm}\\[.12cm]
+      {\scriptsize\color{Secundario}Grad-CAM: regiones asociadas con la predicci\'on.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\end{document}
