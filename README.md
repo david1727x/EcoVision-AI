@@ -23,12 +23,12 @@ ResNet18 clasificó correctamente **298 de 379 imágenes de prueba**. Estas mét
 ```text
 app.py                          Aplicación web Streamlit
 requirements.txt                Dependencias
-artifacts/best_model.pth        Checkpoint entrenado (subir archivo)
-notebook/EcoVision_Proyecto_Final.ipynb  Experimentos (subir archivo)
-presentacion/EcoVision_Presentacion.pdf  Diapositivas (subir archivo)
+best_model.pth                  Checkpoint entrenado (ya publicado)
+EcoVision_Proyecto_Final.ipynb  Experimentos ejecutados (ya publicado)
+EcoVision_Presentacion.pdf     Diapositivas de 5 páginas (ya publicado)
 ```
 
-> **Pendiente de completar:** para que la aplicación funcione en Streamlit Cloud es indispensable añadir `artifacts/best_model.pth` al repositorio. También se recomienda subir el notebook ejecutado y la presentación PDF.
+> **Archivos confirmados en GitHub:** modelo `best_model.pth`, notebook `EcoVision_Proyecto_Final.ipynb`, presentación `EcoVision_Presentacion.pdf`. El código de Streamlit detecta el modelo en la raíz o en `artifacts/`. Pendiente: publicar y comprobar la aplicación en Streamlit Community Cloud.
 
 ## Uso en Streamlit
 
