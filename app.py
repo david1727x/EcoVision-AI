@@ -56,9 +56,12 @@ def cargar_modelo(ruta):
 st.title("♻️ EcoVision AI")
 st.write("Clasificación exploratoria de **residuos** mediante redes neuronales convolucionales.")
 
+# Acepta tanto la ruta raíz (subida desde GitHub Web) como artifacts/.
 CHECKPOINT = Path(__file__).parent / "artifacts" / "best_model.pth"
 if not CHECKPOINT.exists():
-    st.warning("Falta el modelo entrenado: sube artifacts/best_model.pth al repositorio de GitHub.")
+    CHECKPOINT = Path(__file__).parent / "best_model.pth"
+if not CHECKPOINT.exists():
+    st.warning("Falta el modelo entrenado: sube best_model.pth a la raíz del repositorio o a artifacts/.")
     st.stop()
 
 try:
