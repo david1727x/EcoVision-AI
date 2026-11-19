@@ -4,6 +4,8 @@
 
 **Autores:** David Santiago Cifuentes Grimaldo y Juan David Jiménez.
 
+### 🌐 [Probar la aplicación EcoVision AI en Streamlit](https://ecovision-david.streamlit.app)
+
 ## Objetivo
 Desarrollar un prototipo de visión por computador que clasifique una fotografía de un único residuo en seis categorías: cartón, vidrio, metal, papel, plástico y basura general. Se comparan una **CNN entrenada desde cero** y **ResNet18 mediante transferencia de aprendizaje**.
 
@@ -28,7 +30,7 @@ EcoVision_Proyecto_Final.ipynb  Experimentos ejecutados (ya publicado)
 EcoVision_Presentacion.pdf     Diapositivas de 5 páginas (ya publicado)
 ```
 
-> **Archivos confirmados en GitHub:** modelo `best_model.pth`, notebook `EcoVision_Proyecto_Final.ipynb`, presentación `EcoVision_Presentacion.pdf`. El código de Streamlit detecta el modelo en la raíz o en `artifacts/`. Pendiente: publicar y comprobar la aplicación en Streamlit Community Cloud.
+> **Archivos confirmados en GitHub:** modelo `best_model.pth`, notebook `EcoVision_Proyecto_Final.ipynb`, presentación `EcoVision_Presentacion.pdf`. La aplicación está publicada en [Streamlit Community Cloud](https://ecovision-david.streamlit.app), según la prueba del equipo.
 
 ## Uso en Streamlit
 
@@ -47,4 +49,4 @@ Prototipo académico. La identificación puede fallar cuando hay varios objetos,
 
 ## Entrega académica
 
-La entrega recomendada comprende el notebook ejecutado, la presentación de cinco diapositivas y los enlaces al repositorio y, cuando esté publicada, a la aplicación Streamlit.
+La entrega recomendada comprende el notebook ejecutado, la presentación de cinco diapositivas, el repositorio y el enlace a la [aplicación Streamlit](https://ecovision-david.streamlit.app).
